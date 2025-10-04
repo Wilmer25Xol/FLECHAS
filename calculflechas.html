@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Promedio de Notas</title>
+</head>
+<body style="background:#222; color:#fff; font-family: Arial; text-align:center; margin-top:50px;">
+
+  <h2>Calculadora de Promedio</h2>
+  <p>Ingresa tus notas (puedes usar coma o punto):</p>
+
+  <input type="number" class="nota" placeholder="Nota 1" step="any" min="0" max="100"><br><br>
+  <input type="number" class="nota" placeholder="Nota 2" step="any" min="0" max="100"><br><br>
+  <input type="number" class="nota" placeholder="Nota 3" step="any" min="0" max="100"><br><br>
+  <input type="number" class="nota" placeholder="Nota 4" step="any" min="0" max="100"><br><br>
+
+  <button onclick="calcular()">Calcular Promedio</button>
+  <button onclick="reiniciar()">Reiniciar</button>
+
+  <h3 id="resultado"></h3>
+  <p id="listado"></p>
+
+  <script>
+    // Función flecha sin parámetros para convertir texto a número
+    const parseNumero = valor => {
+      if (!valor) return NaN;
+      const limpio = valor.toString().trim().replace(',', '.');
+      return parseFloat(limpio);
+    };
+
+    // Función flecha sin parámetros para calcular el promedio
+    const calcular = () => {
+      const inputs = document.querySelectorAll(".nota");
+      let suma = 0, cantidad = 0, lista = [];
+
+      inputs.forEach(input => {
+        const num = parseNumero(input.value);
+        if (!isNaN(num)) {
+          suma += num;
+          cantidad++;
+          lista.push(num);
+        }
+      });
+
+      const resultado = document.getElementById("resultado");
+      const listado  = document.getElementById("listado");
+
+      if (cantidad > 0) {
+        const promedio = suma / cantidad;
+        resultado.textContent = "Promedio: " + promedio.toFixed(2);
+        listado.textContent = "Notas ingresadas: " + lista.join(", ");
+      } else {
+        resultado.textContent = "Ingresa al menos una nota válida.";
+        listado.textContent = "";
+      }
+    };
+
+    // Función flecha sin parámetros para reiniciar los valores
+    const reiniciar = () => {
+      document.querySelectorAll(".nota").forEach(i => i.value = "");
+      document.getElementById("resultado").textContent = "";
+      document.getElementById("listado").textContent = "";
+      const primero = document.querySelector(".nota");
+      if (primero) primero.focus();
+    };
+  </script>
+</body>
+</html>
